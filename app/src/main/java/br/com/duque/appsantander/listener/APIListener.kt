@@ -1,5 +1,6 @@
 package br.com.duque.appsantander.listener
 
+import br.com.duque.appsantander.model.User
 import br.com.duque.appsantander.model.UserAccount
 
 interface APIListener {

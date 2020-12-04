@@ -20,7 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var mViewModel: LoginViewModel
 
@@ -30,14 +30,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         mViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+        btnLogin.setOnClickListener {
 
-    }
+            handlerLogin()
+            verifyLoggerUser()
+            observer()
 
-    override fun onClick(v: View?) {
-       if (v!!.id == R.id.btnLogin){
-           handlerLogin()
-           startActivity(Intent(this, DetailsActivity::class.java))
-       }
+        }
+
+
     }
 
     /**
@@ -48,21 +49,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     /**
-     * inicia evento de click
-     */
-    private fun setListeners(){
-        btnLogin.setOnClickListener(this)
-    }
-
-    /**
      * Observa ViewModel
      */
     private fun observer(){
         mViewModel.login.observe(this, Observer {
-            if (it){
+            if (it.success()){
                 startActivity(Intent(this, DetailsActivity::class.java))
             }else{
-                Toast.makeText(this, "Erro de login", Toast.LENGTH_SHORT).show()
+                val message = it.failure()
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        mViewModel.loggedUser.observe(this, Observer {
+            if (it){
+                startActivity(Intent(this, DetailsActivity::class.java))
             }
         })
 
@@ -72,11 +73,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      * autentica usuario
      */
     private fun handlerLogin(){
-        var userModel = User()
-        userModel.user = edtUser.text.toString()
-        userModel.password = edtPassword.text.toString()
 
-        mViewModel.doLogin(userModel.user, userModel.password)
+        val userLogin = User()
+        userLogin.user = edt_user.text.toString()
+        userLogin.password = edt_password.text.toString()
+
+        mViewModel.doLogin(userLogin.user, userLogin.password)
     }
 
 
