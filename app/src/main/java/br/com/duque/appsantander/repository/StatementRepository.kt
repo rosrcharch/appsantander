@@ -1,6 +1,7 @@
 package br.com.duque.appsantander.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import br.com.duque.appsantander.R
 import br.com.duque.appsantander.listener.ReturnListener
@@ -23,9 +24,11 @@ class StatementRepository(val context: Context) {
 
             override fun onFailure(call: Call<List<StatementModel>>, t: Throwable) {
 
+                Log.i("TAG", "onFailure: $t")
             }
 
             override fun onResponse(call: Call<List<StatementModel>>, response: Response<List<StatementModel>>) {
+                if (response.code() == Constants.HTTP.SUCCESS)
                 response.body()?.let { listReturnListener.save(it) }
 
             }

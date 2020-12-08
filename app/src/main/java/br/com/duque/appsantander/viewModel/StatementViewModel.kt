@@ -2,6 +2,7 @@ package br.com.duque.appsantander.viewModel
 
 import SharedPreferences
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,11 +19,16 @@ class StatementViewModel(application: Application): AndroidViewModel(application
     private val mStatementRepository = StatementRepository(application)
     private val mSharedPreferences = SharedPreferences(application)
 
+    private var mLogout = MutableLiveData<Boolean>()
+    val logout: LiveData<Boolean> = mLogout
+
     private var mList = MutableLiveData<List<StatementModel>>()
     val list: LiveData<List<StatementModel>>
         get() = mList
 
-
+    /**
+     * retorno de lista usando api
+     */
     fun getListStatement() {
         mStatementRepository.getLista(object : ReturnListener{
             override fun save(list: List<StatementModel>) {
@@ -31,6 +37,13 @@ class StatementViewModel(application: Application): AndroidViewModel(application
 
         })
 
+    }
+
+    fun logout(){
+        mSharedPreferences.remove(Constants.SHARED.USER)
+        mSharedPreferences.remove(Constants.SHARED.PASSWORD)
+
+        mLogout.value = true
     }
 
 }

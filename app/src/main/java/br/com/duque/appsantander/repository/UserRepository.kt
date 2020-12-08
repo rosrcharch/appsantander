@@ -29,9 +29,8 @@ class UserRepository(val context: Context) {
             }
 
             override fun onResponse(call: Call<UserAccount>, response: Response<UserAccount>) {
-
-                    response.body()?.let { listener.onSuccess(it) }
-
+                if (response.code() == Constants.HTTP.SUCCESS)
+                response.body()?.let { listener.onSuccess(it) }
             }
 
         })

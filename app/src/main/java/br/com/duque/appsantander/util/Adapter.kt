@@ -10,7 +10,7 @@ import br.com.duque.appsantander.model.StatementModel
 import kotlinx.android.synthetic.main.item_recyclerview.view.*
 
 
-class Adapter(private val statementList: ArrayList<StatementModel>, private val context: Context) : RecyclerView.Adapter<Adapter.MyViewHolder>() {
+class Adapter(private val statementList: List<StatementModel>, private val context: Context) : RecyclerView.Adapter<Adapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
@@ -21,11 +21,6 @@ class Adapter(private val statementList: ArrayList<StatementModel>, private val 
 
     }
 
-    fun update(newStatement: List<StatementModel>){
-        statementList.clear()
-        statementList.addAll(newStatement)
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View = LayoutInflater.from(context).inflate(R.layout.item_recyclerview, parent, false)
