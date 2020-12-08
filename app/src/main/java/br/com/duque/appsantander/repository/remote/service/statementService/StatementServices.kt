@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface StatementServices {
 
-    @GET("/api/statements/1")
+    @GET("/api/login/statement")
     fun getStatement(): Call<List<StatementModel>>
 }

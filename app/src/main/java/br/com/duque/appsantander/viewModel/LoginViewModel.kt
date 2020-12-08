@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.duque.appsantander.listener.APIListener
 import br.com.duque.appsantander.listener.ValidationListener
-import br.com.duque.appsantander.model.User
 import br.com.duque.appsantander.model.UserAccount
 import br.com.duque.appsantander.repository.UserRepository
 import br.com.duque.appsantander.util.Constants
@@ -16,6 +15,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     private val mUserRepository = UserRepository(application)
     private val mSharedPreferences = SharedPreferences(application)
+    private val dataUser = UserAccount()
 
     private val mLogin = MutableLiveData<ValidationListener>()
     var login: LiveData<ValidationListener> = mLogin
@@ -26,12 +26,14 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     /**
      * faz login usando API
      */
-    fun doLogin(user: String, password: String){
+    fun doLogin(user: String = dataUser.user, password: String = dataUser.password ){
         mUserRepository.login(user, password, object  : APIListener{
 
             override fun onSuccess(model: UserAccount) {
 
                 //Salvando retorno nos sharedPreferences
+                mSharedPreferences.store(Constants.SHARED.USER, model.user)
+                mSharedPreferences.store(Constants.SHARED.PASSWORD, model.password)
                 mSharedPreferences.store(Constants.HEADER.USERID, model.userId.toString())
                 mSharedPreferences.store(Constants.HEADER.NAME, model.name)
                 mSharedPreferences.store(Constants.HEADER.BANKACCOUNT, model.bankAccount)
@@ -54,10 +56,10 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
      */
     fun virifyLoggedUser(){
 
-        val userid = mSharedPreferences.get(Constants.HEADER.USERID)
-        val name = mSharedPreferences.get(Constants.HEADER.NAME)
+        val user = mSharedPreferences.get(Constants.SHARED.USER)
+        val password = mSharedPreferences.get(Constants.SHARED.PASSWORD)
 
-        val logged = (userid != "" && name != "")
+        val logged = (user != "" && password != "")
         mLoggedUser.value = logged
 
 

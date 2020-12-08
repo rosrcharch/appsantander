@@ -3,38 +3,48 @@ package br.com.duque.appsantander.ui.ui.details
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.duque.appsantander.R
 import br.com.duque.appsantander.model.StatementModel
-import br.com.duque.appsantander.repository.remote.service.statementService.StatementServices
-import br.com.duque.appsantander.repository.remote.service.userService.RetrofitUser
 import br.com.duque.appsantander.util.Adapter
+import br.com.duque.appsantander.viewModel.StatementViewModel
 import kotlinx.android.synthetic.main.activity_datails.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailsActivity : AppCompatActivity() {
+
+    private lateinit var mViewModel: StatementViewModel
+    val listAdapter = Adapter(arrayListOf(), this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_datails)
 
-        val recyclerview = recycler_view
-        recyclerview.adapter = Adapter(statements(), this)
-        val layoutManeger = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        mViewModel = ViewModelProvider(this).get(StatementViewModel::class.java)
+
+
+
+        var recyclerview = recycler_view
+       // recyclerview.adapter = Adapter(mViewModel.getListStatement(), this)
+        var layoutManeger = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerview.layoutManager = layoutManeger
+
+
+        //Inicia os eventos de lista
+        observer()
+
     }
 
-
-    private fun statements(): List<StatementModel> {
-
-        return listOf(
-                StatementModel("pagamento","Conta de agua", "11/02/1998","2.000"),
-                StatementModel("pagamento","Conta de agua", "11/02/1998","2.000"),
-                StatementModel("pagamento","Conta de agua", "11/02/1998","2.000"),
-                StatementModel("pagamento","Conta de agua", "11/02/1998","2.000"),
-                StatementModel("pagamento","Conta de agua", "11/02/1998","2.000")
-        )
+    /**
+     *Observa as listas
+     */
+    private fun observer(){
+        mViewModel.list.observe(this, Observer {
+            if (it != null)
+            listAdapter.update(it)
+        })
 
     }
 

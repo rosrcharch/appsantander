@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import br.com.duque.appsantander.R
 import br.com.duque.appsantander.listener.APIListener
-import br.com.duque.appsantander.model.User
 import br.com.duque.appsantander.model.UserAccount
 import br.com.duque.appsantander.repository.remote.service.userService.RetrofitUser
 import br.com.duque.appsantander.repository.remote.service.userService.UserServices
@@ -19,7 +18,7 @@ class UserRepository(val context: Context) {
     /**
      * Put here your DAOs metods or Retrofit to Get Local or Remote Data
      */
-    private val mRemote = RetrofitUser.createServices(UserServices::class.java)
+    private val mRemote = RetrofitUser.createUserServices(UserServices::class.java)
 
     fun login(user: String, password: String, listener: APIListener){
 
@@ -30,12 +29,8 @@ class UserRepository(val context: Context) {
             }
 
             override fun onResponse(call: Call<UserAccount>, response: Response<UserAccount>) {
-                if (response.code() != Constants.HTTP.SUCCESS){
-                    val validation = Gson().fromJson(response.errorBody()!!.string(), String::class.java)
-                    listener.onFailure(validation)
-                } else {
+
                     response.body()?.let { listener.onSuccess(it) }
-                }
 
             }
 

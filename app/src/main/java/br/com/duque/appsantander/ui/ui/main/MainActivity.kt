@@ -9,18 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.duque.appsantander.R
-import br.com.duque.appsantander.model.User
-import br.com.duque.appsantander.repository.UserRepository
-import br.com.duque.appsantander.repository.remote.service.userService.RetrofitUser
-import br.com.duque.appsantander.repository.remote.service.userService.UserServices
 import br.com.duque.appsantander.ui.ui.details.DetailsActivity
 import br.com.duque.appsantander.viewModel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mViewModel: LoginViewModel
 
@@ -30,15 +23,27 @@ class MainActivity : AppCompatActivity() {
 
         mViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
-        btnLogin.setOnClickListener {
+        //inicializa os eventos
+        setListeners()
+        observer()
 
+        //verifica se usuario esta logado
+        verifyLoggerUser()
+
+    }
+
+    override fun onClick(v: View) {
+        if (v.id == R.id.btnLogin){
             handlerLogin()
-            verifyLoggerUser()
-            observer()
-
         }
 
+    }
 
+    /**
+     * Inicializa os eventos de click
+     */
+    private fun setListeners(){
+        btnLogin.setOnClickListener(this)
     }
 
     /**
@@ -74,12 +79,12 @@ class MainActivity : AppCompatActivity() {
      */
     private fun handlerLogin(){
 
-        val userLogin = User()
-        userLogin.user = edt_user.text.toString()
-        userLogin.password = edt_password.text.toString()
+        val user = edt_user.text.toString()
+        val password = edt_password.text.toString()
 
-        mViewModel.doLogin(userLogin.user, userLogin.password)
+        mViewModel.doLogin(user, password)
     }
+
 
 
 

@@ -8,7 +8,7 @@ class RetrofitStatement private constructor() {
 
     companion object{
         private lateinit var retrofit: Retrofit
-        private const val BASE_URL = "https://bank-app-test.herokuapp.com/"
+        private const val BASE_URL = "https://5fca7fdb3c1c2200164427c6.mockapi.io"
 
         private fun getRetrofitInstance(): Retrofit {
 
@@ -24,7 +24,7 @@ class RetrofitStatement private constructor() {
             return retrofit
         }
 
-        fun <S> createServices(servicesClass: Class<S>): S {
+        fun <S> createStatementServer(servicesClass: Class<S>): S {
             return getRetrofitInstance().create(servicesClass)
         }
     }
