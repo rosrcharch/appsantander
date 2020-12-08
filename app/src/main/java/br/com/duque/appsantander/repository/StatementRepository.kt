@@ -24,7 +24,6 @@ class StatementRepository(val context: Context) {
 
             override fun onFailure(call: Call<List<StatementModel>>, t: Throwable) {
 
-                Log.i("TAG", "onFailure: $t")
             }
 
             override fun onResponse(call: Call<List<StatementModel>>, response: Response<List<StatementModel>>) {

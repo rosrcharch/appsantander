@@ -1,6 +1,12 @@
 package br.com.duque.appsantander;
 
+import android.content.Context;
+
 import org.junit.Test;
+import org.mockito.Mock;
+
+import br.com.duque.appsantander.ui.ui.details.DetailsActivity;
+import br.com.duque.appsantander.ui.ui.main.MainActivity;
 
 import static org.junit.Assert.*;
 
@@ -14,4 +20,5 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
 }
