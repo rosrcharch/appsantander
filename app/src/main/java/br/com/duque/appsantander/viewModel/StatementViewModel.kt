@@ -41,8 +41,8 @@ class StatementViewModel(application: Application) : AndroidViewModel(applicatio
                     mError.value = false
                     mList.value = list
                 } else {
-                    mError.value = false
-                    mLoading.value = true
+                    mError.value = true
+                    mLoading.value = false
                 }
 
             }

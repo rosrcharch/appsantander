@@ -58,12 +58,14 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         })
         mViewModel.getListStatement()
 
+        //Observador de logout
         mViewModel.logout.observe(this, Observer {
-            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         })
 
+        //Observador de mensagem de erro
         mViewModel.error.observe(this, Observer {
-          if (it != false){
+          if (it == true){
               listError.visibility = View.VISIBLE
               loading.visibility = View.GONE
               recyclerview.visibility = View.GONE
@@ -72,8 +74,9 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
           }
         })
 
+        //Observador do ProgressBar
         mViewModel.loading.observe(this, Observer {
-            if (it != false){
+            if (it == true){
                 loading.visibility = View.VISIBLE
                 recyclerview.visibility = View.GONE
                 listError.visibility = View.GONE
@@ -87,7 +90,6 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         if (v.id == R.id.icone_logout) {
             mViewModel.logout()
-            finish()
         }
     }
 
