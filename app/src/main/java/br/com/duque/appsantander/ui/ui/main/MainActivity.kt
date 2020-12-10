@@ -79,8 +79,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun handlerLogin(){
 
-        val user = edt_user.text.toString()
-        val password = edt_password.text.toString()
+        var user = edt_user.text.toString()
+        var password = edt_password.text.toString()
 
         mViewModel.doLogin(user, password)
     }

@@ -1,10 +1,8 @@
 package br.com.duque.appsantander.repository
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import br.com.duque.appsantander.R
-import br.com.duque.appsantander.listener.ReturnListener
+import br.com.duque.appsantander.listener.ReturnList
 import br.com.duque.appsantander.model.StatementModel
 import br.com.duque.appsantander.repository.remote.service.statementService.RetrofitStatement
 import br.com.duque.appsantander.repository.remote.service.statementService.StatementServices
@@ -15,21 +13,24 @@ import retrofit2.Response
 
 class StatementRepository(val context: Context) {
 
+    /**
+     * Put here your DAOs metods or Retrofit to Get Local or Remote Data
+     */
     private val mRemote = RetrofitStatement.createStatementServer(StatementServices::class.java)
 
-
-    fun getLista(listReturnListener: ReturnListener) {
+    fun getList(listReturnListener: ReturnList) {
         val call: Call<List<StatementModel>> = mRemote.getStatement()
         call.enqueue(object : Callback<List<StatementModel>> {
-
             override fun onFailure(call: Call<List<StatementModel>>, t: Throwable) {
-
+                listReturnListener.onFailure(true)
             }
 
             override fun onResponse(call: Call<List<StatementModel>>, response: Response<List<StatementModel>>) {
-                if (response.code() == Constants.HTTP.SUCCESS)
-                response.body()?.let { listReturnListener.save(it) }
-
+                if (response.code() == Constants.HTTP.SUCCESS && response.body() != null) {
+                    response.body()?.let { listReturnListener.onSuccess(it) }
+                } else {
+                    listReturnListener.onFailure(true)
+                }
             }
 
         })

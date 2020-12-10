@@ -11,7 +11,7 @@ import br.com.duque.appsantander.model.UserAccount
 import br.com.duque.appsantander.repository.UserRepository
 import br.com.duque.appsantander.util.Constants
 
-class LoginViewModel(application: Application): AndroidViewModel(application) {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mUserRepository = UserRepository(application)
     private val mSharedPreferences = SharedPreferences(application)
@@ -26,19 +26,17 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     /**
      * faz login usando API
      */
-    fun doLogin(user: String = dataUser.user, password: String = dataUser.password ){
-        mUserRepository.login(user, password, object  : APIListener{
+    fun doLogin(user: String, password: String) {
+        mUserRepository.login(user, password, object : APIListener {
 
             override fun onSuccess(model: UserAccount) {
 
                 //Salvando retorno nos sharedPreferences
-                mSharedPreferences.store(Constants.SHARED.USER, model.user)
-                mSharedPreferences.store(Constants.SHARED.PASSWORD, model.password)
-                mSharedPreferences.store(Constants.HEADER.USERID, model.userId.toString())
+                mSharedPreferences.store(Constants.SHARED.USER, user)
+                mSharedPreferences.store(Constants.SHARED.PASSWORD, password)
+                mSharedPreferences.store(Constants.HEADER.PERSONKEY, model.personKey)
                 mSharedPreferences.store(Constants.HEADER.NAME, model.name)
-                mSharedPreferences.store(Constants.HEADER.BANKACCOUNT, model.bankAccount)
-                mSharedPreferences.store(Constants.HEADER.AGENCY, model.agency)
-                mSharedPreferences.store(Constants.HEADER.BALANCE, model.balance.toString())
+                mSharedPreferences.store(Constants.HEADER.TOKEN, model.token)
 
                 mLogin.value = ValidationListener()
 
@@ -54,7 +52,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     /**
      * verifica se usuario esta logado
      */
-    fun virifyLoggedUser(){
+    fun virifyLoggedUser() {
 
         val user = mSharedPreferences.get(Constants.SHARED.USER)
         val password = mSharedPreferences.get(Constants.SHARED.PASSWORD)

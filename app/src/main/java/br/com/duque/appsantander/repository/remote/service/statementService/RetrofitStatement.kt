@@ -6,14 +6,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitStatement private constructor() {
 
-    companion object{
+    companion object {
         private lateinit var retrofit: Retrofit
         private const val BASE_URL = "https://5fca7fdb3c1c2200164427c6.mockapi.io/"
 
         private fun getRetrofitInstance(): Retrofit {
 
             var httpClient = OkHttpClient.Builder()
-            if (!Companion::retrofit.isInitialized){
+            if (!Companion::retrofit.isInitialized) {
                 retrofit = Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .client(httpClient.build())

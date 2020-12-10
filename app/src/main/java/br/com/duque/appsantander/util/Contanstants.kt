@@ -12,9 +12,9 @@ class Constants private constructor() {
     }
 
     object HEADER {
-        const val USERID = "userid"
+        const val PERSONKEY = "personkey"
         const val NAME = "name"
-        const val BANKACCOUNT = "bankaccount"
+        const val TOKEN = "token"
         const val AGENCY = "agency"
         const val BALANCE = "balance"
     }

@@ -2,6 +2,7 @@
     <string name="app_name">AppSantander</string>
 
     <string name="ERROR_UNEXPECTED">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>
+    <string name="ERROR_LOADING">Erro ao carregar a chamada.</string>
     <string name="ERROR_INTERNET_CONNECTION">Conexão a internet necessaria para uso da applicação.</string>
 
     <string name="user">User</string>

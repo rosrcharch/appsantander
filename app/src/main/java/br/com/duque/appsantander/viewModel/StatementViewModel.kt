@@ -2,44 +2,64 @@ package br.com.duque.appsantander.viewModel
 
 import SharedPreferences
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import br.com.duque.appsantander.listener.APIListener
-import br.com.duque.appsantander.listener.ReturnListener
-import br.com.duque.appsantander.listener.ValidationListener
+import br.com.duque.appsantander.listener.ReturnList
 import br.com.duque.appsantander.model.StatementModel
-import br.com.duque.appsantander.model.UserAccount
 import br.com.duque.appsantander.repository.StatementRepository
 import br.com.duque.appsantander.util.Constants
 
-class StatementViewModel(application: Application): AndroidViewModel(application) {
+class StatementViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mStatementRepository = StatementRepository(application)
     private val mSharedPreferences = SharedPreferences(application)
 
-    private var mLogout = MutableLiveData<Boolean>()
-    val logout: LiveData<Boolean> = mLogout
+    private val mLoading = MutableLiveData<Boolean>()
+    var loading: LiveData<Boolean> = mLoading
 
-    private var mList = MutableLiveData<List<StatementModel>>()
-    val list: LiveData<List<StatementModel>>
-        get() = mList
+    private val mError = MutableLiveData<Boolean>()
+    var error: LiveData<Boolean> = mError
+
+    private val mLogout = MutableLiveData<Boolean>()
+    var logout: LiveData<Boolean> = mLogout
+
+    private val mList = MutableLiveData<List<StatementModel>>()
+    var list: LiveData<List<StatementModel>> = mList
+
 
     /**
      * retorno de lista usando api
      */
     fun getListStatement() {
-        mStatementRepository.getLista(object : ReturnListener{
-            override fun save(list: List<StatementModel>) {
-                mList.value = list
+        mStatementRepository.getList(object : ReturnList {
+
+            override fun onSuccess(list: List<StatementModel>) {
+
+                if (list != null) {
+                    mLoading.value = false
+                    mError.value = false
+                    mList.value = list
+                } else {
+                    mError.value = false
+                    mLoading.value = true
+                }
+
+            }
+
+            override fun onFailure(loading: Boolean) {
+                if (loading != null){
+                    mError.value = true
+                    mLoading.value = false
+                }
             }
 
         })
 
     }
 
-    fun logout(){
+    fun logout() {
+
         mSharedPreferences.remove(Constants.SHARED.USER)
         mSharedPreferences.remove(Constants.SHARED.PASSWORD)
 

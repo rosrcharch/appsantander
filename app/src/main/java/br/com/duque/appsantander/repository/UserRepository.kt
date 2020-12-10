@@ -29,8 +29,14 @@ class UserRepository(val context: Context) {
             }
 
             override fun onResponse(call: Call<UserAccount>, response: Response<UserAccount>) {
-                if (response.code() == Constants.HTTP.SUCCESS)
-                response.body()?.let { listener.onSuccess(it) }
+                if (response.code() != Constants.HTTP.SUCCESS){
+                    val validation = Gson().fromJson(response.errorBody()!!.string(), String::class.java)
+                    listener.onFailure(validation)
+                    Log.i("TAG", "onResponse: validação $validation")
+                }else {
+                    response.body()?.let { listener.onSuccess(it) }
+                }
+
             }
 
         })
