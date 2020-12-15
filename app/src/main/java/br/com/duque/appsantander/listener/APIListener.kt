@@ -13,5 +13,5 @@ interface APIListener {
 interface ReturnList {
 
     fun onSuccess(list: List<StatementModel>)
-    fun onFailure(loading: Boolean)
+    fun onFailure(errorLoad: Boolean)
 }

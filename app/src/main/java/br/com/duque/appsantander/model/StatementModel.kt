@@ -2,7 +2,7 @@ package br.com.duque.appsantander.model
 
 import com.google.gson.annotations.SerializedName
 
-data class StatementModel(
+class StatementModel(
         @SerializedName("title")
         val title: String,
         @SerializedName("desc")

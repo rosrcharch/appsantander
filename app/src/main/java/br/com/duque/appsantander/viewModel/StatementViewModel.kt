@@ -47,8 +47,8 @@ class StatementViewModel(application: Application) : AndroidViewModel(applicatio
 
             }
 
-            override fun onFailure(loading: Boolean) {
-                if (loading != null){
+            override fun onFailure(errorLoad: Boolean) {
+                if (errorLoad){
                     mError.value = true
                     mLoading.value = false
                 }

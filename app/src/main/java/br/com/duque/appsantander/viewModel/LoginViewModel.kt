@@ -15,7 +15,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mUserRepository = UserRepository(application)
     private val mSharedPreferences = SharedPreferences(application)
-    private val dataUser = UserAccount()
 
     private val mLogin = MutableLiveData<ValidationListener>()
     var login: LiveData<ValidationListener> = mLogin
@@ -52,7 +51,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * verifica se usuario esta logado
      */
-    fun virifyLoggedUser() {
+    fun verifyLoggedUser() {
 
         val user = mSharedPreferences.get(Constants.SHARED.USER)
         val password = mSharedPreferences.get(Constants.SHARED.PASSWORD)

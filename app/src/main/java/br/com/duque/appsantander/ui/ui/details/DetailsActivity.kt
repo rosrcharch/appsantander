@@ -50,12 +50,14 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun observer() {
         mViewModel.list.observe(this, Observer {
-            if (it != null){
+            if (it != null) {
                 recyclerview.visibility = View.VISIBLE
+                listError.visibility = View.GONE
                 recyclerview.adapter = Adapter(it, this)
             }
 
         })
+
         mViewModel.getListStatement()
 
         //Observador de logout
@@ -65,18 +67,18 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
 
         //Observador de mensagem de erro
         mViewModel.error.observe(this, Observer {
-          if (it == true){
-              listError.visibility = View.VISIBLE
-              loading.visibility = View.GONE
-              recyclerview.visibility = View.GONE
-          } else {
-              listError.visibility = View.GONE
-          }
+            if (it) {
+                listError.visibility = View.VISIBLE
+                loading.visibility = View.GONE
+                recyclerview.visibility = View.GONE
+            } else {
+                listError.visibility = View.GONE
+            }
         })
 
         //Observador do ProgressBar
         mViewModel.loading.observe(this, Observer {
-            if (it == true){
+            if (it) {
                 loading.visibility = View.VISIBLE
                 recyclerview.visibility = View.GONE
                 listError.visibility = View.GONE
@@ -84,6 +86,7 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
                 loading.visibility = View.GONE
             }
         })
+
 
     }
 
@@ -99,7 +102,6 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
     private fun setListeners() {
         icone_logout.setOnClickListener(this)
     }
-
 
 
 }

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      * Verifica se usuario esta logado
      */
     private fun verifyLoggerUser(){
-        mViewModel.virifyLoggedUser()
+        mViewModel.verifyLoggedUser()
     }
 
     /**
@@ -84,8 +84,5 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         mViewModel.doLogin(user, password)
     }
-
-
-
 
 }

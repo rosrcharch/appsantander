@@ -20,20 +20,24 @@ class UserRepository(val context: Context) {
      */
     private val mRemote = RetrofitUser.createUserServices(UserServices::class.java)
 
-    fun login(user: String, password: String, listener: APIListener){
+    fun login(user: String, password: String, listener: APIListener) {
 
         val call: Call<UserAccount> = mRemote.acessUser(user, password)
-        call.enqueue(object : Callback<UserAccount>{
+        call.enqueue(object : Callback<UserAccount> {
             override fun onFailure(call: Call<UserAccount>, t: Throwable) {
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
 
             override fun onResponse(call: Call<UserAccount>, response: Response<UserAccount>) {
-                if (response.code() != Constants.HTTP.SUCCESS){
-                    val validation = Gson().fromJson(response.errorBody()!!.string(), String::class.java)
-                    listener.onFailure(validation)
+                if (response.code() != Constants.HTTP.SUCCESS) {
+                    val validation = Gson().fromJson(response.errorBody()?.string(), String::class.java)
+                    if (validation != null) {
+                        listener.onFailure(validation)
+                    } else {
+                        listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+                    }
                     Log.i("TAG", "onResponse: validação $validation")
-                }else {
+                } else {
                     response.body()?.let { listener.onSuccess(it) }
                 }
 

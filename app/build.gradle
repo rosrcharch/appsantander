@@ -28,10 +28,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 
 }
-
-
 
 def room_version = "2.0.0"
 def anko_version='0.10.8'
@@ -45,6 +47,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+
+    // Dependência principal do Mockito
+    testImplementation 'org.mockito:mockito-core:2.28.2'
+    // Dependência do Mockito para testes no Android
+    androidTestImplementation 'org.mockito:mockito-android:2.28.2'
+    // Dependência do Mockito para ser possível mockar classes e métodos constantes
+    testImplementation 'org.mockito:mockito-inline:2.28.2'
 
     //RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.+"
