@@ -15,6 +15,7 @@ import br.com.duque.appsantander.ui.ui.main.MainActivity
 import br.com.duque.appsantander.util.Adapter
 import br.com.duque.appsantander.viewModel.StatementViewModel
 import kotlinx.android.synthetic.main.activity_datails.*
+import java.util.Observer
 
 class DetailsActivity : AppCompatActivity(), View.OnClickListener {
 
