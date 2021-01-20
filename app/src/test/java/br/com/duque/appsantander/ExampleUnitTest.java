@@ -2,9 +2,11 @@ package br.com.duque.appsantander;
 
 import android.content.Context;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import br.com.duque.appsantander.listener.ValidationListener;
 import br.com.duque.appsantander.ui.ui.details.DetailsActivity;
 import br.com.duque.appsantander.ui.ui.main.MainActivity;
 

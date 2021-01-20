@@ -36,14 +36,9 @@ class StatementViewModel(application: Application) : AndroidViewModel(applicatio
 
             override fun onSuccess(list: List<StatementModel>) {
 
-                if (list != null) {
-                    mLoading.value = false
-                    mError.value = false
-                    mList.value = list
-                } else {
-                    mError.value = true
-                    mLoading.value = false
-                }
+                mLoading.value = false
+                mError.value = false
+                mList.value = list
 
             }
 
